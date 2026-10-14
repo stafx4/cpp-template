@@ -1,8 +1,182 @@
+#if !__INCLUDE_LEVEL__
+#include __FILE__
+//-------------------------------------------------------------------------------------
+
+
+
+//-------------------------------------------------------------------------------------
+// unordered_set
+//__builtin_popcountll
+//./a.out < in.txt > out.txt
+// g++ -std=gnu++23 -O0 -g0 -pipe -I. a.cpp
+#else
+#ifdef LOCAL
+#include "pch.hpp"
+#else
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
+#endif
+
+#ifndef ONLINE_JUDGE
+#define _GLIBCXX_DEBUG //[]で配列外参照をするとエラーにしてくれる。上下のやつがないとTLEになるので注意 ABC311Eのサンプル4みたいなデバック中のTLEは防げないので注意
+#endif
+
+// #include <boost/multiprecision/cpp_int.hpp>
+// namespace boo = boost::multiprecision;
+using mint = modint998244353;
+// 1000000007
+// 998244353
+using pll = pair<long long, long long>;
 typedef long long ll;
 typedef long double ld;
+// #define _GLIBCXX_DEBUG
 #define INF (ll)2e18
+#define fi first
+#define se second
+#define R return 0
+#define PB push_back
+#define stirng string
+#define vll vector<ll>
+#define mutliset multiset
+#define NO cout << "No" << endl
+#define YES cout << "Yes" << endl
+#define ANS cout << ans << endl
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define dou fixed << setprecision(20)
+#define an cout << (ans ? "Yes" : "No")
+#define en cout << "------------" << endl
+// #define min(x,y) ((x) < (y) ? (x) : (y))
+// #define max(x,y) ((x) > (y) ? (x) : (y))
+#define rep(i, n) for (ll i = 0; i < (ll)(n); i++)
+#define vv(name, h, w, type, init) \
+    std::vector<std::vector<type>> name((h), std::vector<type>((w), (init)))
+#define vvv(name, d, h, w, type, init)                    \
+    std::vector<std::vector<std::vector<type>>> name((d), \
+                                                     std::vector<std::vector<type>>((h), std::vector<type>((w), (init))))
+#define vvvv(name, x, y, z, w, type, init)                                                                         \
+    std::vector<std::vector<std::vector<std::vector<type>>>> name((x),                                             \
+                                                                  std::vector<std::vector<std::vector<type>>>((y), \
+                                                                                                              std::vector<std::vector<type>>((z), std::vector<type>((w), (init)))))
+#define vvvvv(name, a, b, c, d, e, type, init)                                  \
+    std::vector<std::vector<std::vector<std::vector<std::vector<type>>>>> name( \
+        (a), std::vector<std::vector<std::vector<std::vector<type>>>>(          \
+                 (b), std::vector<std::vector<std::vector<type>>>(              \
+                          (c), std::vector<std::vector<type>>(                  \
+                                   (d), std::vector<type>((e), (init))))))
+ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
+ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
+long long TEN(int x) { return x == 0 ? 1 : TEN(x - 1) * 10; }
+template <typename T>
+constexpr std::pair<T, T> myminmax(const T& a, const T& b) {
+    // 比較に基づいて {min, max} を直接組み立てて返す
+    return (b < a) ? std::pair{b, a} : std::pair{a, b};
+}
+template<class T>void vcin(vector<T> &n){for(int i=0;i<int(n.size());i++) cin>>n[i];}
+template <class T>
+inline bool chmax(T &a, T b)
+{
+    if (a < b)
+    {
+        a = b;
+        return 1;
+    }
+    return 0;
+}
+template <class T>
+inline bool chmin(T &a, T b)
+{
+    if (a > b)
+    {
+        a = b;
+        return 1;
+    }
+    return 0;
+}
+template <typename T>
+auto rle(const T& v) {
+    using val_t = typename T::value_type;
+    std::vector<std::pair<val_t, ll>> res;
+    
+    for (const auto& elem : v) {
+        if (res.empty() || res.back().first != elem) {
+            res.emplace_back(elem, 1);
+        } else {
+            res.back().second++;
+        }
+    }
+    return res;
+}
+// ll mod = (ll)1000000007;
+ll mod = (ll)998244353;
+//  ll inv = 499122177;
+vector<ll> f1 = {0, -1, 0, 1}, f2 = {-1, 0, 1, 0};                             // 四方向
+vector<ll> f3 = {-1, 0, 1, 0, 1, -1, 1, -1}, f4 = {0, 1, 0, -1, 1, 1, -1, -1}; // ハチ方向
+template <class T>
+using minpq = priority_queue<T, vector<T>, greater<T>>;
+template <class T>
+long long reduce(const vector<T> &a)
+{
+    long long s = 0;
+    for (auto &x : a)
+        s += x;
+    return s;
+}
+void yn(bool ok)
+{
+    cout << (ok ? "Yes" : "No") << '\n';
+}
+
+#define yu_qurid(x, y) ((x) * (x) + (y) * (y))                   // ユークリッド距離 sqrtはしてないなので注意
+#define mannhattan(x1, x2, y1, y2) (abs(x1 - x2) + abs(y1 - y2)) // マンハッタン距離 = |x1-x2|+|y1-y2|
+// reference @frest
+#define vc_cout(v)                   \
+    do                               \
+    {                                \
+        ll nn = v.size();            \
+        for (int i = 0; i < nn; i++) \
+        {                            \
+            cout << v[i] << " ";     \
+        }                            \
+        cout << endl;                \
+    } while (0)
+
+#define vv_cout(v)                                \
+    do                                            \
+    {                                             \
+        ll nn = v.size();                         \
+        for (int i = 0; i < nn; i++)              \
+        {                                         \
+            for (int j = 0; j < v[i].size(); j++) \
+                cout << v[i][j] << " ";           \
+            cout << endl;                         \
+        }                                         \
+    } while (0)
+// n(10進数)をa進数に
+string to_oct(ll n, ll a)
+{
+    string s;
+    while (n)
+    {
+        s = to_string(n % a) + s;
+        n /= a;
+    }
+    return s;
+}
+
+bool bfs_est(ll xx1, ll yy1, ll hhh, ll www)
+{
+    return (0 <= xx1 && xx1 < hhh && 0 <= yy1 && www > yy1);
+}
+static const auto fast_io = []()
+{
+    cin.tie(nullptr);
+    ios::sync_with_stdio(false);
+    return 0;
+}();
+
 
 #define vvl_kaiten(v)                                   \
     {                                                   \
@@ -474,3 +648,4 @@ long long inversion_permutation(const std::vector<T>& q) {
 
 //転倒数
 //適当にやればでる
+#endif
